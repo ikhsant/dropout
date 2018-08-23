@@ -34,6 +34,9 @@ $mahasiswa_indikasi_dropout = mysqli_query($conn,"SELECT * FROM quisioner WHERE 
 $mahasiswa_dropout = mysqli_query($conn,"SELECT * FROM quisioner WHERE status = 'Dropout' ");
 
 ?>
+
+<script type="text/javascript" src="../assets/js/Chart.min.js"></script>
+
 <div class="col-lg-3 col-md-6">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -149,6 +152,45 @@ $mahasiswa_dropout = mysqli_query($conn,"SELECT * FROM quisioner WHERE status = 
     </div>
 </div>
 
+<div class="col-md-6">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Chart STOK
+        </div>
+        <div class="panel-body">
+            <canvas id="myChart" height="200px"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["Bertahan", "Indikasi Bertahan", "Indikasi Dropout","Dropout"],
+            datasets: [{
+                label: '# Stok',
+                data: [<?php echo mysqli_num_rows($mahasiswa_bertahan) ?>, <?php echo mysqli_num_rows($mahasiswa_indikasi_bertahan) ?>, <?php echo mysqli_num_rows($mahasiswa_indikasi_dropout) ?>, <?php echo mysqli_num_rows($mahasiswa_dropout) ?>],
+                backgroundColor: [
+                'rgba(0, 255, 0)',
+                'rgba(255, 255, 0)',
+                'rgba(255, 128, 0)',
+                'rgba(255, 0, 0)'
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255,54,80,1)',
+                'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+    });
+</script>
 
 <?php  } ?>
 
